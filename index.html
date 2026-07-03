@@ -370,28 +370,29 @@ function renderSLA(){
   const alertBox = document.getElementById("sla-alert");
   try{
     const today = startOfToday();
-    const recebimentoByContrato = {};
-    casosRows.forEach(r => {
+    const statusByContrato = {};
+    allRows.forEach(r => {
       const key = (r._contrato || "").toString().trim();
-      if(key && r._recebimentoDate && r._andamento) recebimentoByContrato[key] = r;
+      if(key) statusByContrato[key] = r;
     });
 
     const late = [];
-    allRows.forEach(r => {
-      const key = (r._contrato || "").toString().trim();
-      const casoInfo = recebimentoByContrato[key];
-      if(!casoInfo || !casoInfo._recebimentoDate) return;
-      if(SLA_DONE_STATUSES.includes(r._status)) return;
-      const deadline = addBusinessDays(casoInfo._recebimentoDate, 3);
+    casosRows.forEach(caso => {
+      const key = (caso._contrato || "").toString().trim();
+      if(!key || !caso._recebimentoDate || !caso._andamento) return;
+      const julhoRow = statusByContrato[key];
+      const status = julhoRow ? julhoRow._status : "aberto";
+      if(SLA_DONE_STATUSES.includes(status)) return;
+      const deadline = addBusinessDays(caso._recebimentoDate, 3);
       if(today > deadline){
         const diasAtraso = Math.round((today - deadline) / 86400000);
         late.push({
-          contrato: r._contrato,
-          status: r._status,
-          recebimento: casoInfo._recebimento,
+          contrato: caso._contrato,
+          status: status,
+          recebimento: caso._recebimento,
           deadline: deadline,
           diasAtraso: diasAtraso,
-          endereco: r._endereco || casoInfo._endereco
+          endereco: (julhoRow && julhoRow._endereco) || caso._endereco
         });
       }
     });
