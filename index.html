@@ -53,7 +53,6 @@ document.head.appendChild(__styleEl);
             <th>Endereço</th>
             <th>Região</th>
             <th>Diligência</th>
-            <th>Tipo</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -218,7 +217,7 @@ function render(){
   const tbody = document.getElementById("table-body");
   tbody.innerHTML = "";
   if(filtered.length === 0){
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="8">Nenhum caso encontrado com esse filtro.</td></tr>`;
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="7">Nenhum caso encontrado com esse filtro.</td></tr>`;
   } else {
     filtered.forEach(r => {
       const meta = STATUS_META[r._status];
@@ -231,7 +230,6 @@ function render(){
         <td>${r._endereco || "—"}</td>
         <td>${REGION_META[r._regiao].label}</td>
         <td>${r._diligencia || "—"}</td>
-        <td>${r._tipo || "—"}</td>
       `;
       tbody.appendChild(tr);
     });
