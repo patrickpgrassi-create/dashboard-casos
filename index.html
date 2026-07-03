@@ -71,7 +71,7 @@ document.head.appendChild(__styleEl);
         <thead>
           <tr>
             <th>Contrato</th>
-            <th>Status</th>
+            <th>Andamento</th>
             <th>Data de recebimento</th>
             <th>Prazo final</th>
             <th>Dias em atraso</th>
@@ -365,6 +365,13 @@ async function loadCasosData(){
 
 const SLA_DONE_STATUSES = ["realizado","ocupado","entrega"];
 
+const ANDAMENTO_META = {
+  "sem retorno":      { label:"Sem retorno",      bg:"#FEE2E2", tx:"#B91C1C" },
+  "somente judicial": { label:"Somente judicial", bg:"#FFEDD5", tx:"#C2410C" },
+  "nao autorizado":   { label:"Não autorizado",   bg:"#DBEAFE", tx:"#1D4ED8" },
+  "aguardando loft":  { label:"Aguardando Loft",  bg:"#FEF9C3", tx:"#A16207" }
+};
+
 function renderSLA(){
   const tbody = document.getElementById("sla-table-body");
   const alertBox = document.getElementById("sla-alert");
@@ -388,7 +395,7 @@ function renderSLA(){
         const diasAtraso = Math.round((today - deadline) / 86400000);
         late.push({
           contrato: caso._contrato,
-          status: status,
+          andamento: caso._andamento,
           recebimento: caso._recebimento,
           deadline: deadline,
           diasAtraso: diasAtraso,
@@ -406,7 +413,8 @@ function renderSLA(){
     } else {
       alertBox.innerHTML = `<span class="alert-note">${late.length} caso(s) fora do prazo de SLA</span>`;
       late.forEach(r => {
-        const meta = STATUS_META[r.status];
+        const key = stripAccents(r.andamento);
+        const meta = ANDAMENTO_META[key] || { label:r.andamento || "—", bg:"#F3F4F6", tx:"#4B5563" };
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${r.contrato || "—"}</td>
