@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Casos — Imissões</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+  :root{
+    --bg:#F4F5F7;
+    --surface:#FFFFFF;
+    --ink:#1A2332;
+    --ink-soft:#5B6472;
+    --border:#E2E5EA;
+    --brand:#1F3A5F;
+    --brand-soft:#EAF0F6;
+
+    --aberto-bg:#FEF3C7; --aberto-tx:#92580A;
+    --agendado-bg:#DBEAFE; --agendado-tx:#1D4ED8;
+    --realizado-bg:#DCFCE7; --realizado-tx:#15803D;
+    --ocupado-bg:#CCFBF1; --ocupado-tx:#0F766E;
+    --remarcado-bg:#F3E8FF; --remarcado-tx:#7E22CE;
+    --entrega-bg:#FFE4E6; --entrega-tx:#BE123C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    padding:28px 32px 60px;
+  }
+  .wrap{max-width:1240px;margin:0 auto;}
+
+  .topbar{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:22px;flex-wrap:wrap;gap:14px;
+  }
+  .title-block h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;font-size:26px;margin:0 0 4px;color:var(--brand);
+  }
+  .title-block p{margin:0;font-size:13px;color:var(--ink-soft);}
+  .status-row{display:flex;align-items:center;gap:16px;}
+  .live{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--ink-soft);}
+  .live-dot{
+    width:8px;height:8px;border-radius:50%;background:#16A34A;
+    animation:pulse 1.8s ease-in-out infinite;flex-shrink:0;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .refresh-btn{
+    border:1px solid var(--border);background:var(--surface);color:var(--ink);
+    font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+    padding:8px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;
+  }
+  .refresh-btn:hover{background:var(--brand-soft);}
+  .refresh-btn:active{transform:scale(0.98);}
+
+  .kpi-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px;
+  }
+  @media (max-width:980px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}
+  @media (max-width:600px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+
+  .kpi-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;
+    padding:16px 14px;cursor:pointer;text-align:left;
+    transition:border-color .15s, box-shadow .15s;
+    position:relative;
+  }
+  .kpi-card:hover{border-color:#C7CCD4;}
+  .kpi-card.active{border-color:var(--kpi-tx);box-shadow:0 0 0 1.5px var(--kpi-tx) inset;}
+  .kpi-label{
+    font-size:12px;font-weight:600;color:var(--kpi-tx);background:var(--kpi-bg);
+    display:inline-block;padding:3px 8px;border-radius:6px;margin-bottom:10px;
+  }
+  .kpi-value{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;
+    color:var(--ink);line-height:1;
+  }
+
+  .toolbar{
+    display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;
+  }
+  .search-input{
+    flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--border);
+    border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);
+  }
+  .search-input:focus{outline:none;border-color:var(--brand);}
+  .clear-filter{
+    font-size:13px;color:var(--brand);background:none;border:none;cursor:pointer;
+    font-weight:500;padding:8px 4px;display:none;
+  }
+  .clear-filter.visible{display:inline-block;}
+
+  .table-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  }
+  .table-scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px;}
+  thead th{
+    text-align:left;padding:11px 14px;color:var(--ink-soft);font-weight:600;
+    background:#FAFAFB;border-bottom:1px solid var(--border);white-space:nowrap;
+  }
+  tbody td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--ink);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#FAFAFB;}
+  .badge{
+    display:inline-block;padding:3px 9px;border-radius:6px;font-size:12px;font-weight:600;
+    background:var(--b-bg);color:var(--b-tx);white-space:nowrap;
+  }
+  .empty-row td{text-align:center;color:var(--ink-soft);padding:36px 14px;}
+  .footer-note{margin-top:16px;font-size:12px;color:var(--ink-soft);text-align:center;}
+  .count-note{font-size:12px;color:var(--ink-soft);margin-bottom:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="title-block">
+      <h1>Painel de casos — imissões</h1>
+      <p id="subtitle">Carregando dados da planilha…</p>
+    </div>
+    <div class="status-row">
+      <div class="live"><span class="live-dot"></span><span id="live-text">Ao vivo · atualizado agora</span></div>
+      <button class="refresh-btn" id="refresh-btn"><span>&#8635;</span>Atualizar agora</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid" id="kpi-grid"></div>
+
+  <div class="toolbar">
+    <input type="text" class="search-input" id="search-input" placeholder="Buscar por contrato, endereço, inquilino...">
+    <button class="clear-filter" id="clear-filter">Limpar filtro de status ×</button>
+  </div>
+
+  <div class="count-note" id="count-note"></div>
+
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Contrato</th>
+            <th>Status</th>
+            <th>Data da imissão</th>
+            <th>Horário</th>
+            <th>Endereço</th>
+            <th>Diligência</th>
+            <th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer-note">Dados vindos da planilha do escritório · atualização automática a cada 60 segundos</div>
+</div>
+
+<script>
+const CSV_URL = "https://docs.google.com/spreadsheets/d/1ERF7KqQJKxv3ZWliL_CA9d3Wg91JRieLbry7HUweno4/gviz/tq?tqx=out:csv&gid=511571258";
+const REFRESH_MS = 60000;
+
+const STATUS_ORDER = ["aberto","agendado","realizado","ocupado","remarcado","entrega"];
+const STATUS_META = {
+  aberto:    { label:"Em aberto",           bg:"var(--aberto-bg)",    tx:"var(--aberto-tx)" },
+  agendado:  { label:"Agendado",            bg:"var(--agendado-bg)",  tx:"var(--agendado-tx)" },
+  realizado: { label:"Realizado",           bg:"var(--realizado-bg)", tx:"var(--realizado-tx)" },
+  ocupado:   { label:"Realizado/ocupado",   bg:"var(--ocupado-bg)",   tx:"var(--ocupado-tx)" },
+  remarcado: { label:"Remarcado",           bg:"var(--remarcado-bg)", tx:"var(--remarcado-tx)" },
+  entrega:   { label:"Entrega de chaves",   bg:"var(--entrega-bg)",   tx:"var(--entrega-tx)" }
+};
+
+let allRows = [];
+let activeStatus = null;
+let searchTerm = "";
+
+function stripAccents(s){
+  return (s||"").toString().normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+}
+
+function findCol(headers, needle){
+  return headers.find(h => stripAccents(h).includes(needle));
+}
+
+function classifyStatus(raw){
+  const s = stripAccents(raw);
+  if(!s) return "aberto";
+  if(s.startsWith("ag.") || s.startsWith("ag ")) return "aberto";
+  if(s.includes("reagendar")) return "remarcado";
+  if(s.includes("entrega")) return "entrega";
+  if(s.includes("ocupado")) return "ocupado";
+  if(s.includes("realizad")) return "realizado";
+  if(s.includes("agendad")) return "agendado";
+  return "aberto";
+}
+
+function buildKpiGrid(){
+  const grid = document.getElementById("kpi-grid");
+  grid.innerHTML = "";
+  STATUS_ORDER.forEach(key => {
+    const meta = STATUS_META[key];
+    const card = document.createElement("button");
+    card.className = "kpi-card";
+    card.style.setProperty("--kpi-bg", meta.bg);
+    card.style.setProperty("--kpi-tx", meta.tx);
+    card.dataset.status = key;
+    card.innerHTML = `<div class="kpi-label">${meta.label}</div><div class="kpi-value" id="kpi-val-${key}">0</div>`;
+    card.addEventListener("click", () => {
+      activeStatus = (activeStatus === key) ? null : key;
+      render();
+    });
+    grid.appendChild(card);
+  });
+}
+
+function render(){
+  document.querySelectorAll(".kpi-card").forEach(card => {
+    card.classList.toggle("active", card.dataset.status === activeStatus);
+  });
+  document.getElementById("clear-filter").classList.toggle("visible", !!activeStatus);
+
+  STATUS_ORDER.forEach(key => {
+    const count = allRows.filter(r => r._status === key).length;
+    const el = document.getElementById("kpi-val-" + key);
+    if(el) el.textContent = count;
+  });
+
+  let filtered = allRows;
+  if(activeStatus) filtered = filtered.filter(r => r._status === activeStatus);
+  if(searchTerm){
+    const t = stripAccents(searchTerm);
+    filtered = filtered.filter(r =>
+      stripAccents(r._contrato).includes(t) ||
+      stripAccents(r._endereco).includes(t) ||
+      stripAccents(r._diligencia).includes(t)
+    );
+  }
+
+  const tbody = document.getElementById("table-body");
+  tbody.innerHTML = "";
+  if(filtered.length === 0){
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="7">Nenhum caso encontrado com esse filtro.</td></tr>`;
+  } else {
+    filtered.forEach(r => {
+      const meta = STATUS_META[r._status];
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${r._contrato || "—"}</td>
+        <td><span class="badge" style="--b-bg:${meta.bg};--b-tx:${meta.tx}">${meta.label}</span></td>
+        <td>${r._data || "—"}</td>
+        <td>${r._horario || "—"}</td>
+        <td>${r._endereco || "—"}</td>
+        <td>${r._diligencia || "—"}</td>
+        <td>${r._tipo || "—"}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById("count-note").textContent =
+    `Mostrando ${filtered.length} de ${allRows.length} casos`;
+}
+
+function parseAndStore(csvText){
+  const parsed = Papa.parse(csvText, { header:true, skipEmptyLines:true });
+  const headers = parsed.meta.fields || [];
+
+  const col = {
+    contrato: findCol(headers,"contrato"),
+    status: findCol(headers,"status"),
+    endereco: findCol(headers,"endere"),
+    data: findCol(headers,"imiss") || findCol(headers,"data"),
+    diligencia: findCol(headers,"dilig"),
+    tipo: findCol(headers,"tipo"),
+    horario: findCol(headers,"horario")
+  };
+
+  allRows = parsed.data
+    .filter(row => Object.values(row).some(v => v && v.toString().trim() !== ""))
+    .map(row => ({
+      _contrato: col.contrato ? row[col.contrato] : "",
+      _status: classifyStatus(col.status ? row[col.status] : ""),
+      _endereco: col.endereco ? row[col.endereco] : "",
+      _data: col.data ? row[col.data] : "",
+      _diligencia: col.diligencia ? row[col.diligencia] : "",
+      _tipo: col.tipo ? row[col.tipo] : "",
+      _horario: col.horario ? row[col.horario] : ""
+    }));
+}
+
+async function loadData(isManual){
+  try{
+    const res = await fetch(CSV_URL + "&_=" + Date.now());
+    if(!res.ok) throw new Error("Falha ao buscar planilha");
+    const text = await res.text();
+    parseAndStore(text);
+    render();
+    const now = new Date();
+    document.getElementById("subtitle").textContent =
+      `${allRows.length} casos carregados`;
+    document.getElementById("live-text").textContent =
+      "Ao vivo · atualizado às " + now.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  }catch(err){
+    document.getElementById("subtitle").textContent = "Não foi possível carregar a planilha agora. Tentando de novo em instantes.";
+    console.error(err);
+  }
+}
+
+document.getElementById("search-input").addEventListener("input", (e) => {
+  searchTerm = e.target.value;
+  render();
+});
+document.getElementById("clear-filter").addEventListener("click", () => {
+  activeStatus = null;
+  render();
+});
+document.getElementById("refresh-btn").addEventListener("click", () => loadData(true));
+
+buildKpiGrid();
+loadData();
+setInterval(loadData, REFRESH_MS);
+</script>
+</body>
+</html>
