@@ -313,7 +313,8 @@ function parseCasosCSV(csvText){
   const col = {
     contrato: findCol(headers,"contrato"),
     recebimento: findCol(headers,"recebiment"),
-    endereco: findCol(headers,"endere")
+    endereco: findCol(headers,"endere"),
+    andamento: findCol(headers,"andamento")
   };
   return parsed.data
     .filter(row => col.contrato && row[col.contrato] && row[col.contrato].toString().trim() !== "")
@@ -321,7 +322,8 @@ function parseCasosCSV(csvText){
       _contrato: row[col.contrato],
       _recebimento: col.recebimento ? row[col.recebimento] : "",
       _recebimentoDate: col.recebimento ? parseDateBR(row[col.recebimento]) : null,
-      _endereco: col.endereco ? row[col.endereco] : ""
+      _endereco: col.endereco ? row[col.endereco] : "",
+      _andamento: col.andamento ? (row[col.andamento] || "").toString().trim() : ""
     }));
 }
 
@@ -427,10 +429,10 @@ function renderSLA(){
 function mergeMissingCasos(){
   const julhoContratos = new Set(allRows.map(r => (r._contrato || "").toString().trim()));
   const today = startOfToday();
-  const cutoff = new Date(today.getFullYear(), 5, 30);
+  const cutoff = new Date(today.getFullYear(), 5, 10);
   const missing = casosRows.filter(r => {
     const key = (r._contrato || "").toString().trim();
-    return key && !julhoContratos.has(key) && r._recebimentoDate && r._recebimentoDate >= cutoff;
+    return key && !julhoContratos.has(key) && r._recebimentoDate && r._recebimentoDate >= cutoff && r._andamento;
   });
   missing.forEach(r => {
     allRows.push({
