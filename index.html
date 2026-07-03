@@ -61,26 +61,8 @@ document.head.appendChild(__styleEl);
   </div>
 
 
-  <div class="section-title">Recebidos em julho e ainda não lançados na JULHO</div>
-  <p class="section-subtitle">Casos da aba CASOS com data de recebimento a partir de julho, cujo número de contrato ainda não aparece na aba JULHO.</p>
-  <div class="table-card">
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>Contrato</th>
-            <th>Data de recebimento</th>
-            <th>Endereço</th>
-          </tr>
-        </thead>
-        <tbody id="pending-table-body"></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="count-note" id="pending-count-note"></div>
 
-
-  <div class="section-title">Casos atrasados (SLA D+3)</div>
+  <div class="section-title">Casos ainda sem retorno (SLA+3)</div>
   <p class="section-subtitle">Prazo = data de recebimento + 3 dias úteis (o dia do recebimento não conta, e fins de semana não contam como dia útil). Considera atrasado quem ainda não está Realizado, Realizado/ocupado ou com Entrega de chaves.</p>
   <div id="sla-alert"></div>
   <div class="table-card">
@@ -372,40 +354,6 @@ async function loadCasosData(){
   casosRows = parseCasosCSV(text);
 }
 
-function renderPendingJulho(){
-  const tbody = document.getElementById("pending-table-body");
-  try{
-    const today = startOfToday();
-    const cutoff = new Date(today.getFullYear(), 6, 1);
-    const julhoContratos = new Set(allRows.map(r => (r._contrato || "").toString().trim()));
-
-    const pending = casosRows.filter(r =>
-      r._recebimentoDate && r._recebimentoDate >= cutoff &&
-      !julhoContratos.has((r._contrato || "").toString().trim())
-    );
-
-    tbody.innerHTML = "";
-    if(pending.length === 0){
-      tbody.innerHTML = `<tr class="empty-row"><td colspan="3">Nenhum caso pendente encontrado.</td></tr>`;
-    } else {
-      pending.forEach(r => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${r._contrato || "—"}</td>
-          <td>${r._recebimento || "—"}</td>
-          <td>${r._endereco || "—"}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-    document.getElementById("pending-count-note").textContent =
-      `${pending.length} caso(s) recebido(s) em julho ainda não lançados na aba JULHO`;
-  }catch(err){
-    document.getElementById("pending-count-note").textContent = "Não foi possível calcular essa lista agora.";
-    console.error(err);
-  }
-}
-
 const SLA_DONE_STATUSES = ["realizado","ocupado","entrega"];
 
 function renderSLA(){
@@ -501,7 +449,7 @@ document.getElementById("refresh-btn").addEventListener("click", () => refreshAl
 buildKpiGrid();
 buildRegionRow();
 function refreshAll(){
-  return loadData().then(loadCasosData).then(() => { renderPendingJulho(); renderSLA(); });
+  return loadData().then(loadCasosData).then(() => { renderSLA(); });
 }
 refreshAll();
 setInterval(refreshAll, REFRESH_MS);
