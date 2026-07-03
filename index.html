@@ -348,10 +348,17 @@ function startOfToday(){
 }
 
 async function loadCasosData(){
-  const res = await fetch(CASOS_CSV_URL + "&_=" + Date.now());
-  if(!res.ok) throw new Error("Falha ao buscar aba CASOS");
-  const text = await res.text();
-  casosRows = parseCasosCSV(text);
+  try{
+    const res = await fetch(CASOS_CSV_URL + "&_=" + Date.now());
+    if(!res.ok) throw new Error("Falha ao buscar aba CASOS (status " + res.status + ")");
+    const text = await res.text();
+    casosRows = parseCasosCSV(text);
+  }catch(err){
+    console.error("Erro ao carregar aba CASOS:", err);
+    casosRows = [];
+    document.getElementById("sla-count-note").textContent =
+      "Não foi possível carregar a aba CASOS (verifique o link/permissão).";
+  }
 }
 
 const SLA_DONE_STATUSES = ["realizado","ocupado","entrega"];
