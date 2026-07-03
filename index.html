@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-var __cssText = "\n  :root{\n    --bg:#F4F5F7;\n    --surface:#FFFFFF;\n    --ink:#1A2332;\n    --ink-soft:#5B6472;\n    --border:#E2E5EA;\n    --brand:#1F3A5F;\n    --brand-soft:#EAF0F6;\n\n    --aberto-bg:#FEF3C7; --aberto-tx:#92580A;\n    --agendado-bg:#DBEAFE; --agendado-tx:#1D4ED8;\n    --realizado-bg:#DCFCE7; --realizado-tx:#15803D;\n    --ocupado-bg:#CCFBF1; --ocupado-tx:#0F766E;\n    --remarcado-bg:#F3E8FF; --remarcado-tx:#7E22CE;\n    --entrega-bg:#FFE4E6; --entrega-tx:#BE123C;\n  }\n  *{box-sizing:border-box;}\n  body{\n    margin:0;\n    background:var(--bg);\n    color:var(--ink);\n    font-family:'Inter',system-ui,sans-serif;\n    padding:28px 32px 60px;\n  }\n  .wrap{max-width:1240px;margin:0 auto;}\n\n  .topbar{\n    display:flex;justify-content:space-between;align-items:flex-end;\n    margin-bottom:22px;flex-wrap:wrap;gap:14px;\n  }\n  .title-block h1{\n    font-family:'Space Grotesk',sans-serif;\n    font-weight:600;font-size:26px;margin:0 0 4px;color:var(--brand);\n  }\n  .title-block p{margin:0;font-size:13px;color:var(--ink-soft);}\n  .status-row{display:flex;align-items:center;gap:16px;}\n  .live{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--ink-soft);}\n  .live-dot{\n    width:8px;height:8px;border-radius:50%;background:#16A34A;\n    animation:pulse 1.8s ease-in-out infinite;flex-shrink:0;\n  }\n  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}\n  .refresh-btn{\n    border:1px solid var(--border);background:var(--surface);color:var(--ink);\n    font-family:'Inter',sans-serif;font-size:13px;font-weight:500;\n    padding:8px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;\n  }\n  .refresh-btn:hover{background:var(--brand-soft);}\n  .refresh-btn:active{transform:scale(0.98);}\n\n  .kpi-grid{\n    display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:22px;\n  }\n  @media (max-width:980px){.kpi-grid{grid-template-columns:repeat(3,1fr);}}\n  @media (max-width:600px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}\n\n  .kpi-card{\n    background:var(--surface);border:1px solid var(--border);border-radius:12px;\n    padding:16px 14px;cursor:pointer;text-align:left;\n    transition:border-color .15s, box-shadow .15s;\n    position:relative;\n  }\n  .kpi-card:hover{border-color:#C7CCD4;}\n  .kpi-card.active{border-color:var(--kpi-tx);box-shadow:0 0 0 1.5px var(--kpi-tx) inset;}\n  .kpi-label{\n    font-size:12px;font-weight:600;color:var(--kpi-tx);background:var(--kpi-bg);\n    display:inline-block;padding:3px 8px;border-radius:6px;margin-bottom:10px;\n  }\n  .kpi-value{\n    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;\n    color:var(--ink);line-height:1;\n  }\n\n  .toolbar{\n    display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;\n  }\n  .search-input{\n    flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--border);\n    border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);\n  }\n  .search-input:focus{outline:none;border-color:var(--brand);}\n  .clear-filter{\n    font-size:13px;color:var(--brand);background:none;border:none;cursor:pointer;\n    font-weight:500;padding:8px 4px;display:none;\n  }\n  .clear-filter.visible{display:inline-block;}\n\n  .table-card{\n    background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;\n  }\n  .table-scroll{overflow-x:auto;}\n  table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px;}\n  thead th{\n    text-align:left;padding:11px 14px;color:var(--ink-soft);font-weight:600;\n    background:#FAFAFB;border-bottom:1px solid var(--border);white-space:nowrap;\n  }\n  tbody td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--ink);}\n  tbody tr:last-child td{border-bottom:none;}\n  tbody tr:hover{background:#FAFAFB;}\n  .badge{\n    display:inline-block;padding:3px 9px;border-radius:6px;font-size:12px;font-weight:600;\n    background:var(--b-bg);color:var(--b-tx);white-space:nowrap;\n  }\n  .empty-row td{text-align:center;color:var(--ink-soft);padding:36px 14px;}\n  .footer-note{margin-top:16px;font-size:12px;color:var(--ink-soft);text-align:center;}\n  .count-note{font-size:12px;color:var(--ink-soft);margin-bottom:10px;}\n";
+var __cssText = "\n  :root{\n    --bg:#F4F5F7;\n    --surface:#FFFFFF;\n    --ink:#1A2332;\n    --ink-soft:#5B6472;\n    --border:#E2E5EA;\n    --brand:#1F3A5F;\n    --brand-soft:#EAF0F6;\n\n    --aberto-bg:#FEF3C7; --aberto-tx:#92580A;\n    --agendado-bg:#DBEAFE; --agendado-tx:#1D4ED8;\n    --realizado-bg:#DCFCE7; --realizado-tx:#15803D;\n    --ocupado-bg:#CCFBF1; --ocupado-tx:#0F766E;\n    --remarcado-bg:#F3E8FF; --remarcado-tx:#7E22CE;\n    --entrega-bg:#FFE4E6; --entrega-tx:#BE123C;\n    --naorealizada-bg:#FEE2E2; --naorealizada-tx:#B91C1C;\n    --loft-bg:#E0E7FF; --loft-tx:#4338CA;\n    --norte-bg:#ECFDF5; --norte-tx:#047857;\n    --nordeste-bg:#FFF7ED; --nordeste-tx:#C2410C;\n    --centrooeste-bg:#FEFCE8; --centrooeste-tx:#A16207;\n    --sudeste-bg:#EFF6FF; --sudeste-tx:#1D4ED8;\n    --sul-bg:#F5F3FF; --sul-tx:#6D28D9;\n    --na-bg:#F3F4F6; --na-tx:#4B5563;\n  }\n  *{box-sizing:border-box;}\n  body{\n    margin:0;\n    background:var(--bg);\n    color:var(--ink);\n    font-family:'Inter',system-ui,sans-serif;\n    padding:28px 32px 60px;\n  }\n  .wrap{max-width:1240px;margin:0 auto;}\n\n  .topbar{\n    display:flex;justify-content:space-between;align-items:flex-end;\n    margin-bottom:22px;flex-wrap:wrap;gap:14px;\n  }\n  .title-block h1{\n    font-family:'Space Grotesk',sans-serif;\n    font-weight:600;font-size:26px;margin:0 0 4px;color:var(--brand);\n  }\n  .title-block p{margin:0;font-size:13px;color:var(--ink-soft);}\n  .status-row{display:flex;align-items:center;gap:16px;}\n  .live{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--ink-soft);}\n  .live-dot{\n    width:8px;height:8px;border-radius:50%;background:#16A34A;\n    animation:pulse 1.8s ease-in-out infinite;flex-shrink:0;\n  }\n  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}\n  .refresh-btn{\n    border:1px solid var(--border);background:var(--surface);color:var(--ink);\n    font-family:'Inter',sans-serif;font-size:13px;font-weight:500;\n    padding:8px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;\n  }\n  .refresh-btn:hover{background:var(--brand-soft);}\n  .refresh-btn:active{transform:scale(0.98);}\n\n  .kpi-grid{\n    display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:22px;\n  }\n  @media (max-width:980px){.kpi-grid{grid-template-columns:repeat(4,1fr);}}\n  @media (max-width:600px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}\n\n  .kpi-card{\n    background:var(--surface);border:1px solid var(--border);border-radius:12px;\n    padding:16px 14px;cursor:pointer;text-align:left;\n    transition:border-color .15s, box-shadow .15s;\n    position:relative;\n  }\n  .kpi-card:hover{border-color:#C7CCD4;}\n  .kpi-card.active{border-color:var(--kpi-tx);box-shadow:0 0 0 1.5px var(--kpi-tx) inset;}\n  .kpi-label{\n    font-size:12px;font-weight:600;color:var(--kpi-tx);background:var(--kpi-bg);\n    display:inline-block;padding:3px 8px;border-radius:6px;margin-bottom:10px;\n  }\n  .kpi-value{\n    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;\n    color:var(--ink);line-height:1;\n  }\n\n  .toolbar{\n    display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;\n  }\n  .search-input{\n    flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--border);\n    border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);\n  }\n  .search-input:focus{outline:none;border-color:var(--brand);}\n  .clear-filter{\n    font-size:13px;color:var(--brand);background:none;border:none;cursor:pointer;\n    font-weight:500;padding:8px 4px;display:none;\n  }\n  .clear-filter.visible{display:inline-block;}\n\n  .table-card{\n    background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;\n  }\n  .table-scroll{overflow-x:auto;}\n  table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px;}\n  thead th{\n    text-align:left;padding:11px 14px;color:var(--ink-soft);font-weight:600;\n    background:#FAFAFB;border-bottom:1px solid var(--border);white-space:nowrap;\n  }\n  tbody td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--ink);}\n  tbody tr:last-child td{border-bottom:none;}\n  tbody tr:hover{background:#FAFAFB;}\n  .badge{\n    display:inline-block;padding:3px 9px;border-radius:6px;font-size:12px;font-weight:600;\n    background:var(--b-bg);color:var(--b-tx);white-space:nowrap;\n  }\n  .empty-row td{text-align:center;color:var(--ink-soft);padding:36px 14px;}\n  .footer-note{margin-top:16px;font-size:12px;color:var(--ink-soft);text-align:center;}\n  .count-note{font-size:12px;color:var(--ink-soft);margin-bottom:10px;}\n\n  .region-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}\n  .region-chip{\n    display:flex;align-items:center;gap:8px;\n    background:var(--kpi-bg);color:var(--kpi-tx);border:1px solid transparent;\n    border-radius:20px;padding:6px 14px;cursor:pointer;font-family:'Inter',sans-serif;\n    font-size:13px;font-weight:600;\n  }\n  .region-chip .region-chip-value{\n    background:rgba(255,255,255,.6);border-radius:10px;padding:1px 8px;font-family:'Space Grotesk',sans-serif;\n  }\n  .region-chip.active{border-color:var(--kpi-tx);}\n";
 var __styleEl = document.createElement("style");
 __styleEl.appendChild(document.createTextNode(__cssText));
 document.head.appendChild(__styleEl);
@@ -32,9 +32,11 @@ document.head.appendChild(__styleEl);
 
   <div class="kpi-grid" id="kpi-grid"></div>
 
+  <div class="region-row" id="region-row"></div>
+
   <div class="toolbar">
     <input type="text" class="search-input" id="search-input" placeholder="Buscar por contrato, endereço, inquilino...">
-    <button class="clear-filter" id="clear-filter">Limpar filtro de status ×</button>
+    <button class="clear-filter" id="clear-filter">Limpar filtros ×</button>
   </div>
 
   <div class="count-note" id="count-note"></div>
@@ -49,6 +51,7 @@ document.head.appendChild(__styleEl);
             <th>Data da imissão</th>
             <th>Horário</th>
             <th>Endereço</th>
+            <th>Região</th>
             <th>Diligência</th>
             <th>Tipo</th>
           </tr>
@@ -65,18 +68,57 @@ document.head.appendChild(__styleEl);
 const CSV_URL = "https://docs.google.com/spreadsheets/d/1ERF7KqQJKxv3ZWliL_CA9d3Wg91JRieLbry7HUweno4/gviz/tq?tqx=out:csv&gid=511571258";
 const REFRESH_MS = 60000;
 
-const STATUS_ORDER = ["aberto","agendado","realizado","ocupado","remarcado","entrega"];
+const STATUS_ORDER = ["aberto","agendado","realizado","ocupado","remarcado","entrega","naorealizada","loft"];
 const STATUS_META = {
   aberto:    { label:"Em aberto",           bg:"var(--aberto-bg)",    tx:"var(--aberto-tx)" },
   agendado:  { label:"Agendado",            bg:"var(--agendado-bg)",  tx:"var(--agendado-tx)" },
   realizado: { label:"Realizado",           bg:"var(--realizado-bg)", tx:"var(--realizado-tx)" },
   ocupado:   { label:"Realizado/ocupado",   bg:"var(--ocupado-bg)",   tx:"var(--ocupado-tx)" },
   remarcado: { label:"Remarcado",           bg:"var(--remarcado-bg)", tx:"var(--remarcado-tx)" },
-  entrega:   { label:"Entrega de chaves",   bg:"var(--entrega-bg)",   tx:"var(--entrega-tx)" }
+  entrega:   { label:"Entrega de chaves",   bg:"var(--entrega-bg)",   tx:"var(--entrega-tx)" },
+  naorealizada: { label:"Não realizada",  bg:"var(--naorealizada-bg)", tx:"var(--naorealizada-tx)" },
+  loft:      { label:"Aguardando Loft",   bg:"var(--loft-bg)",      tx:"var(--loft-tx)" }
 };
+
+const UF_TO_REGION = {
+  AC:"norte", AP:"norte", AM:"norte", PA:"norte", RO:"norte", RR:"norte", TO:"norte",
+  AL:"nordeste", BA:"nordeste", CE:"nordeste", MA:"nordeste", PB:"nordeste", PE:"nordeste", PI:"nordeste", RN:"nordeste", SE:"nordeste",
+  DF:"centrooeste", GO:"centrooeste", MT:"centrooeste", MS:"centrooeste",
+  ES:"sudeste", MG:"sudeste", RJ:"sudeste", SP:"sudeste",
+  PR:"sul", RS:"sul", SC:"sul"
+};
+const VALID_UF = Object.keys(UF_TO_REGION);
+const REGION_ORDER = ["norte","nordeste","centrooeste","sudeste","sul","na"];
+const REGION_META = {
+  norte:       { label:"Norte",         bg:"var(--norte-bg)",       tx:"var(--norte-tx)" },
+  nordeste:    { label:"Nordeste",      bg:"var(--nordeste-bg)",    tx:"var(--nordeste-tx)" },
+  centrooeste: { label:"Centro-oeste",  bg:"var(--centrooeste-bg)", tx:"var(--centrooeste-tx)" },
+  sudeste:     { label:"Sudeste",       bg:"var(--sudeste-bg)",     tx:"var(--sudeste-tx)" },
+  sul:         { label:"Sul",           bg:"var(--sul-bg)",         tx:"var(--sul-tx)" },
+  na:          { label:"Não identificado", bg:"var(--na-bg)",       tx:"var(--na-tx)" }
+};
+
+function extractUF(address){
+  if(!address) return null;
+  const text = address.toString();
+  let matches = text.match(/\b[A-Z]{2}\b/g) || [];
+  let valid = matches.filter(m => VALID_UF.includes(m));
+  if(valid.length) return valid[valid.length-1];
+  matches = text.match(/[A-Z]{2}(?=\d)/g) || [];
+  valid = matches.filter(m => VALID_UF.includes(m));
+  if(valid.length) return valid[valid.length-1];
+  if(/bras[ií]lia/i.test(text)) return "DF";
+  return null;
+}
+
+function extractRegion(address){
+  const uf = extractUF(address);
+  return (uf && UF_TO_REGION[uf]) ? UF_TO_REGION[uf] : "na";
+}
 
 let allRows = [];
 let activeStatus = null;
+let activeRegion = null;
 let searchTerm = "";
 
 function stripAccents(s){
@@ -90,6 +132,8 @@ function findCol(headers, needle){
 function classifyStatus(raw){
   const s = stripAccents(raw);
   if(!s) return "aberto";
+  if(s.includes("loft")) return "loft";
+  if(s.includes("nao realizad")) return "naorealizada";
   if(s.startsWith("ag.") || s.startsWith("ag ")) return "aberto";
   if(s.includes("reagendar")) return "remarcado";
   if(s.includes("entrega")) return "entrega";
@@ -118,11 +162,40 @@ function buildKpiGrid(){
   });
 }
 
+function buildRegionRow(){
+  const row = document.getElementById("region-row");
+  row.innerHTML = "";
+  REGION_ORDER.forEach(key => {
+    const meta = REGION_META[key];
+    const chip = document.createElement("button");
+    chip.className = "region-chip";
+    chip.style.setProperty("--kpi-bg", meta.bg);
+    chip.style.setProperty("--kpi-tx", meta.tx);
+    chip.dataset.region = key;
+    chip.innerHTML = `<span>${meta.label}</span><span class="region-chip-value" id="region-val-${key}">0</span>`;
+    chip.addEventListener("click", () => {
+      activeRegion = (activeRegion === key) ? null : key;
+      render();
+    });
+    row.appendChild(chip);
+  });
+}
+
 function render(){
   document.querySelectorAll(".kpi-card").forEach(card => {
     card.classList.toggle("active", card.dataset.status === activeStatus);
   });
-  document.getElementById("clear-filter").classList.toggle("visible", !!activeStatus);
+  document.getElementById("clear-filter").classList.toggle("visible", !!activeStatus || !!activeRegion);
+
+  document.querySelectorAll(".region-chip").forEach(chip => {
+    chip.classList.toggle("active", chip.dataset.region === activeRegion);
+  });
+
+  REGION_ORDER.forEach(key => {
+    const count = allRows.filter(r => r._regiao === key).length;
+    const el = document.getElementById("region-val-" + key);
+    if(el) el.textContent = count;
+  });
 
   STATUS_ORDER.forEach(key => {
     const count = allRows.filter(r => r._status === key).length;
@@ -132,6 +205,7 @@ function render(){
 
   let filtered = allRows;
   if(activeStatus) filtered = filtered.filter(r => r._status === activeStatus);
+  if(activeRegion) filtered = filtered.filter(r => r._regiao === activeRegion);
   if(searchTerm){
     const t = stripAccents(searchTerm);
     filtered = filtered.filter(r =>
@@ -144,7 +218,7 @@ function render(){
   const tbody = document.getElementById("table-body");
   tbody.innerHTML = "";
   if(filtered.length === 0){
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="7">Nenhum caso encontrado com esse filtro.</td></tr>`;
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="8">Nenhum caso encontrado com esse filtro.</td></tr>`;
   } else {
     filtered.forEach(r => {
       const meta = STATUS_META[r._status];
@@ -155,6 +229,7 @@ function render(){
         <td>${r._data || "—"}</td>
         <td>${r._horario || "—"}</td>
         <td>${r._endereco || "—"}</td>
+        <td>${REGION_META[r._regiao].label}</td>
         <td>${r._diligencia || "—"}</td>
         <td>${r._tipo || "—"}</td>
       `;
@@ -181,11 +256,12 @@ function parseAndStore(csvText){
   };
 
   allRows = parsed.data
-    .filter(row => Object.values(row).some(v => v && v.toString().trim() !== ""))
+    .filter(row => col.contrato && row[col.contrato] && row[col.contrato].toString().trim() !== "")
     .map(row => ({
       _contrato: col.contrato ? row[col.contrato] : "",
       _status: classifyStatus(col.status ? row[col.status] : ""),
       _endereco: col.endereco ? row[col.endereco] : "",
+      _regiao: extractRegion(col.endereco ? row[col.endereco] : ""),
       _data: col.data ? row[col.data] : "",
       _diligencia: col.diligencia ? row[col.diligencia] : "",
       _tipo: col.tipo ? row[col.tipo] : "",
@@ -217,11 +293,13 @@ document.getElementById("search-input").addEventListener("input", (e) => {
 });
 document.getElementById("clear-filter").addEventListener("click", () => {
   activeStatus = null;
+  activeRegion = null;
   render();
 });
 document.getElementById("refresh-btn").addEventListener("click", () => loadData(true));
 
 buildKpiGrid();
+buildRegionRow();
 loadData();
 setInterval(loadData, REFRESH_MS);
 </script>
