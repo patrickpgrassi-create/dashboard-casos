@@ -426,9 +426,11 @@ function renderSLA(){
 
 function mergeMissingCasos(){
   const julhoContratos = new Set(allRows.map(r => (r._contrato || "").toString().trim()));
+  const today = startOfToday();
+  const cutoff = new Date(today.getFullYear(), 5, 30);
   const missing = casosRows.filter(r => {
     const key = (r._contrato || "").toString().trim();
-    return key && !julhoContratos.has(key);
+    return key && !julhoContratos.has(key) && r._recebimentoDate && r._recebimentoDate >= cutoff;
   });
   missing.forEach(r => {
     allRows.push({
@@ -473,8 +475,11 @@ buildKpiGrid();
 buildRegionRow();
 function refreshAll(){
   return loadData().then(loadCasosData).then(() => {
+    const beforeMerge = allRows.length;
     mergeMissingCasos();
-    document.getElementById("subtitle").textContent = `${allRows.length} casos carregados`;
+    const missingCount = allRows.length - beforeMerge;
+    document.getElementById("subtitle").textContent =
+      `${allRows.length} casos carregados · CASOS: ${casosRows.length} linhas lidas, ${missingCount} não lançados na JULHO`;
     render();
     renderSLA();
   });
