@@ -373,7 +373,7 @@ function renderSLA(){
     const recebimentoByContrato = {};
     casosRows.forEach(r => {
       const key = (r._contrato || "").toString().trim();
-      if(key && r._recebimentoDate) recebimentoByContrato[key] = r;
+      if(key && r._recebimentoDate && r._andamento) recebimentoByContrato[key] = r;
     });
 
     const late = [];
