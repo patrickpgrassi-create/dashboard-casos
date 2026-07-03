@@ -85,12 +85,12 @@ document.head.appendChild(__styleEl);
   </div>
   <div class="count-note" id="sla-count-note"></div>
 
-  <div class="footer-note">Dados vindos da planilha do escritório · atualização automática a cada 60 segundos</div>
+  <div class="footer-note">Dados vindos da planilha do escritório · atualização automática a cada 3 minutos</div>
 </div>
 
 <script>
 const CSV_URL = "https://docs.google.com/spreadsheets/d/1ERF7KqQJKxv3ZWliL_CA9d3Wg91JRieLbry7HUweno4/gviz/tq?tqx=out:csv&gid=511571258";
-const REFRESH_MS = 60000;
+const REFRESH_MS = 180000;
 const CASOS_CSV_URL = "https://docs.google.com/spreadsheets/d/1ERF7KqQJKxv3ZWliL_CA9d3Wg91JRieLbry7HUweno4/gviz/tq?tqx=out:csv&gid=1193411794";
 
 const STATUS_ORDER = ["aberto","agvistoria","agtermo","agformulario","agendado","realizado","ocupado","remarcado","entrega","naorealizada","loft"];
@@ -351,17 +351,24 @@ function startOfToday(){
   return new Date(n.getFullYear(), n.getMonth(), n.getDate());
 }
 
+let casosLoadIssue = false;
+
 async function loadCasosData(){
   try{
     const res = await fetch(CASOS_CSV_URL + "&_=" + Date.now());
     if(!res.ok) throw new Error("Falha ao buscar aba CASOS (status " + res.status + ")");
     const text = await res.text();
     casosRows = parseCasosCSV(text);
+    if(casosRows.length === 0 && text.length > 0){
+      console.warn("CASOS retornou 0 linhas úteis — provável limite de requisições do Google (rate limit). Resposta recebida:", text.slice(0, 300));
+      casosLoadIssue = true;
+    } else {
+      casosLoadIssue = false;
+    }
   }catch(err){
     console.error("Erro ao carregar aba CASOS:", err);
     casosRows = [];
-    document.getElementById("sla-count-note").textContent =
-      "Não foi possível carregar a aba CASOS (verifique o link/permissão).";
+    casosLoadIssue = true;
   }
 }
 
@@ -429,8 +436,9 @@ function renderSLA(){
         tbody.appendChild(tr);
       });
     }
-    document.getElementById("sla-count-note").textContent =
-      `${late.length} caso(s) fora do prazo de SLA`;
+    document.getElementById("sla-count-note").textContent = casosLoadIssue
+      ? `${late.length} caso(s) fora do prazo de SLA · aviso: a aba CASOS não carregou agora (provável limite do Google) — clique em Atualizar agora em alguns minutos`
+      : `${late.length} caso(s) fora do prazo de SLA`;
   }catch(err){
     document.getElementById("sla-count-note").textContent = "Não foi possível calcular o SLA agora.";
     console.error(err);
