@@ -435,18 +435,24 @@ function renderSLA(){
   }
 }
 
+const CASOS_STATUS_MAP = {
+  "aguardando loft": "naorealizada",
+  "nao autorizado": "naorealizada"
+};
+
 function mergeMissingCasos(){
   const julhoContratos = new Set(allRows.map(r => (r._contrato || "").toString().trim()));
   const today = startOfToday();
   const cutoff = new Date(today.getFullYear(), 5, 10);
-  const missing = casosRows.filter(r => {
+  casosRows.forEach(r => {
     const key = (r._contrato || "").toString().trim();
-    return key && !julhoContratos.has(key) && r._recebimentoDate && r._recebimentoDate >= cutoff && r._andamento;
-  });
-  missing.forEach(r => {
+    if(!key || julhoContratos.has(key)) return;
+    if(!r._recebimentoDate || r._recebimentoDate < cutoff) return;
+    const mappedStatus = CASOS_STATUS_MAP[stripAccents(r._andamento)];
+    if(!mappedStatus) return;
     allRows.push({
       _contrato: r._contrato,
-      _status: "aberto",
+      _status: mappedStatus,
       _endereco: r._endereco || "",
       _regiao: extractRegion(r._endereco || ""),
       _data: "",
