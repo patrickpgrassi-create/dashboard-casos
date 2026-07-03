@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
-var __cssText = "\n  :root{\n    --bg:#F4F5F7;\n    --surface:#FFFFFF;\n    --ink:#1A2332;\n    --ink-soft:#5B6472;\n    --border:#E2E5EA;\n    --brand:#1F3A5F;\n    --brand-soft:#EAF0F6;\n\n    --aberto-bg:#FEF3C7; --aberto-tx:#92580A;\n    --agendado-bg:#DBEAFE; --agendado-tx:#1D4ED8;\n    --realizado-bg:#DCFCE7; --realizado-tx:#15803D;\n    --ocupado-bg:#CCFBF1; --ocupado-tx:#0F766E;\n    --remarcado-bg:#E0E7FF; --remarcado-tx:#4338CA;\n    --entrega-bg:#FFE4E6; --entrega-tx:#BE123C;\n    --naorealizada-bg:#FEE2E2; --naorealizada-tx:#B91C1C;\n    --agvistoria-bg:#CFFAFE; --agvistoria-tx:#155E75;\n    --agtermo-bg:#FAE8FF; --agtermo-tx:#86198F;\n    --agformulario-bg:#EDE9FE; --agformulario-tx:#5B21B6;\n    --loft-bg:#ECFCCB; --loft-tx:#3F6212;\n    --norte-bg:#ECFDF5; --norte-tx:#047857;\n    --nordeste-bg:#FFF7ED; --nordeste-tx:#C2410C;\n    --centrooeste-bg:#FEFCE8; --centrooeste-tx:#A16207;\n    --sudeste-bg:#EFF6FF; --sudeste-tx:#1D4ED8;\n    --sul-bg:#F5F3FF; --sul-tx:#6D28D9;\n    --na-bg:#F3F4F6; --na-tx:#4B5563;\n  }\n  *{box-sizing:border-box;}\n  body{\n    margin:0;\n    background:var(--bg);\n    color:var(--ink);\n    font-family:'Inter',system-ui,sans-serif;\n    padding:28px 32px 60px;\n  }\n  .wrap{max-width:1240px;margin:0 auto;}\n\n  .topbar{\n    display:flex;justify-content:space-between;align-items:flex-end;\n    margin-bottom:22px;flex-wrap:wrap;gap:14px;\n  }\n  .title-block h1{\n    font-family:'Space Grotesk',sans-serif;\n    font-weight:600;font-size:26px;margin:0 0 4px;color:var(--brand);\n  }\n  .title-block p{margin:0;font-size:13px;color:var(--ink-soft);}\n  .status-row{display:flex;align-items:center;gap:16px;}\n  .live{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--ink-soft);}\n  .live-dot{\n    width:8px;height:8px;border-radius:50%;background:#16A34A;\n    animation:pulse 1.8s ease-in-out infinite;flex-shrink:0;\n  }\n  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}\n  .refresh-btn{\n    border:1px solid var(--border);background:var(--surface);color:var(--ink);\n    font-family:'Inter',sans-serif;font-size:13px;font-weight:500;\n    padding:8px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;\n  }\n  .refresh-btn:hover{background:var(--brand-soft);}\n  .refresh-btn:active{transform:scale(0.98);}\n\n  .kpi-grid{\n    display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:22px;\n  }\n\n  .kpi-card{\n    background:var(--surface);border:1px solid var(--border);border-radius:12px;\n    padding:16px 14px;cursor:pointer;text-align:left;\n    transition:border-color .15s, box-shadow .15s;\n    position:relative;\n  }\n  .kpi-card:hover{border-color:#C7CCD4;}\n  .kpi-card.active{border-color:var(--kpi-tx);box-shadow:0 0 0 1.5px var(--kpi-tx) inset;}\n  .kpi-label{\n    font-size:12px;font-weight:600;color:var(--kpi-tx);background:var(--kpi-bg);\n    display:inline-block;padding:3px 8px;border-radius:6px;margin-bottom:10px;\n  }\n  .kpi-value{\n    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;\n    color:var(--ink);line-height:1;\n  }\n\n  .toolbar{\n    display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;\n  }\n  .search-input{\n    flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--border);\n    border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);\n  }\n  .search-input:focus{outline:none;border-color:var(--brand);}\n  .clear-filter{\n    font-size:13px;color:var(--brand);background:none;border:none;cursor:pointer;\n    font-weight:500;padding:8px 4px;display:none;\n  }\n  .clear-filter.visible{display:inline-block;}\n\n  .table-card{\n    background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;\n  }\n  .table-scroll{overflow-x:auto;}\n  table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px;}\n  thead th{\n    text-align:left;padding:11px 14px;color:var(--ink-soft);font-weight:600;\n    background:#FAFAFB;border-bottom:1px solid var(--border);white-space:nowrap;\n  }\n  tbody td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--ink);}\n  tbody tr:last-child td{border-bottom:none;}\n  tbody tr:hover{background:#FAFAFB;}\n  .badge{\n    display:inline-block;padding:3px 9px;border-radius:6px;font-size:12px;font-weight:600;\n    background:var(--b-bg);color:var(--b-tx);white-space:nowrap;\n  }\n  .empty-row td{text-align:center;color:var(--ink-soft);padding:36px 14px;}\n  .footer-note{margin-top:16px;font-size:12px;color:var(--ink-soft);text-align:center;}\n  .count-note{font-size:12px;color:var(--ink-soft);margin-bottom:10px;}\n\n  .region-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}\n  .region-chip{\n    display:flex;align-items:center;gap:8px;\n    background:var(--kpi-bg);color:var(--kpi-tx);border:1px solid transparent;\n    border-radius:20px;padding:6px 14px;cursor:pointer;font-family:'Inter',sans-serif;\n    font-size:13px;font-weight:600;\n  }\n  .region-chip .region-chip-value{\n    background:rgba(255,255,255,.6);border-radius:10px;padding:1px 8px;font-family:'Space Grotesk',sans-serif;\n  }\n  .region-chip.active{border-color:var(--kpi-tx);}\n\n  .section-title{\n    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;\n    color:var(--brand);margin:32px 0 6px;\n  }\n  .section-subtitle{font-size:13px;color:var(--ink-soft);margin:0 0 14px;}\n";
+var __cssText = "\n  :root{\n    --bg:#F4F5F7;\n    --surface:#FFFFFF;\n    --ink:#1A2332;\n    --ink-soft:#5B6472;\n    --border:#E2E5EA;\n    --brand:#1F3A5F;\n    --brand-soft:#EAF0F6;\n\n    --aberto-bg:#FEF3C7; --aberto-tx:#92580A;\n    --agendado-bg:#DBEAFE; --agendado-tx:#1D4ED8;\n    --realizado-bg:#DCFCE7; --realizado-tx:#15803D;\n    --ocupado-bg:#CCFBF1; --ocupado-tx:#0F766E;\n    --remarcado-bg:#E0E7FF; --remarcado-tx:#4338CA;\n    --entrega-bg:#FFE4E6; --entrega-tx:#BE123C;\n    --naorealizada-bg:#FEE2E2; --naorealizada-tx:#B91C1C;\n    --agvistoria-bg:#CFFAFE; --agvistoria-tx:#155E75;\n    --agtermo-bg:#FAE8FF; --agtermo-tx:#86198F;\n    --agformulario-bg:#EDE9FE; --agformulario-tx:#5B21B6;\n    --loft-bg:#ECFCCB; --loft-tx:#3F6212;\n    --norte-bg:#ECFDF5; --norte-tx:#047857;\n    --nordeste-bg:#FFF7ED; --nordeste-tx:#C2410C;\n    --centrooeste-bg:#FEFCE8; --centrooeste-tx:#A16207;\n    --sudeste-bg:#EFF6FF; --sudeste-tx:#1D4ED8;\n    --sul-bg:#F5F3FF; --sul-tx:#6D28D9;\n    --na-bg:#F3F4F6; --na-tx:#4B5563;\n    --alert-bg:#FEE2E2; --alert-tx:#B91C1C;\n  }\n  *{box-sizing:border-box;}\n  body{\n    margin:0;\n    background:var(--bg);\n    color:var(--ink);\n    font-family:'Inter',system-ui,sans-serif;\n    padding:28px 32px 60px;\n  }\n  .wrap{max-width:1240px;margin:0 auto;}\n\n  .topbar{\n    display:flex;justify-content:space-between;align-items:flex-end;\n    margin-bottom:22px;flex-wrap:wrap;gap:14px;\n  }\n  .title-block h1{\n    font-family:'Space Grotesk',sans-serif;\n    font-weight:600;font-size:26px;margin:0 0 4px;color:var(--brand);\n  }\n  .title-block p{margin:0;font-size:13px;color:var(--ink-soft);}\n  .status-row{display:flex;align-items:center;gap:16px;}\n  .live{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--ink-soft);}\n  .live-dot{\n    width:8px;height:8px;border-radius:50%;background:#16A34A;\n    animation:pulse 1.8s ease-in-out infinite;flex-shrink:0;\n  }\n  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}\n  .refresh-btn{\n    border:1px solid var(--border);background:var(--surface);color:var(--ink);\n    font-family:'Inter',sans-serif;font-size:13px;font-weight:500;\n    padding:8px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;\n  }\n  .refresh-btn:hover{background:var(--brand-soft);}\n  .refresh-btn:active{transform:scale(0.98);}\n\n  .kpi-grid{\n    display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:22px;\n  }\n\n  .kpi-card{\n    background:var(--surface);border:1px solid var(--border);border-radius:12px;\n    padding:16px 14px;cursor:pointer;text-align:left;\n    transition:border-color .15s, box-shadow .15s;\n    position:relative;\n  }\n  .kpi-card:hover{border-color:#C7CCD4;}\n  .kpi-card.active{border-color:var(--kpi-tx);box-shadow:0 0 0 1.5px var(--kpi-tx) inset;}\n  .kpi-label{\n    font-size:12px;font-weight:600;color:var(--kpi-tx);background:var(--kpi-bg);\n    display:inline-block;padding:3px 8px;border-radius:6px;margin-bottom:10px;\n  }\n  .kpi-value{\n    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:30px;\n    color:var(--ink);line-height:1;\n  }\n\n  .toolbar{\n    display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;\n  }\n  .search-input{\n    flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--border);\n    border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);\n  }\n  .search-input:focus{outline:none;border-color:var(--brand);}\n  .clear-filter{\n    font-size:13px;color:var(--brand);background:none;border:none;cursor:pointer;\n    font-weight:500;padding:8px 4px;display:none;\n  }\n  .clear-filter.visible{display:inline-block;}\n\n  .table-card{\n    background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;\n  }\n  .table-scroll{overflow-x:auto;}\n  table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px;}\n  thead th{\n    text-align:left;padding:11px 14px;color:var(--ink-soft);font-weight:600;\n    background:#FAFAFB;border-bottom:1px solid var(--border);white-space:nowrap;\n  }\n  tbody td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--ink);}\n  tbody tr:last-child td{border-bottom:none;}\n  tbody tr:hover{background:#FAFAFB;}\n  .badge{\n    display:inline-block;padding:3px 9px;border-radius:6px;font-size:12px;font-weight:600;\n    background:var(--b-bg);color:var(--b-tx);white-space:nowrap;\n  }\n  .empty-row td{text-align:center;color:var(--ink-soft);padding:36px 14px;}\n  .footer-note{margin-top:16px;font-size:12px;color:var(--ink-soft);text-align:center;}\n  .count-note{font-size:12px;color:var(--ink-soft);margin-bottom:10px;}\n\n  .region-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}\n  .region-chip{\n    display:flex;align-items:center;gap:8px;\n    background:var(--kpi-bg);color:var(--kpi-tx);border:1px solid transparent;\n    border-radius:20px;padding:6px 14px;cursor:pointer;font-family:'Inter',sans-serif;\n    font-size:13px;font-weight:600;\n  }\n  .region-chip .region-chip-value{\n    background:rgba(255,255,255,.6);border-radius:10px;padding:1px 8px;font-family:'Space Grotesk',sans-serif;\n  }\n  .region-chip.active{border-color:var(--kpi-tx);}\n\n  .section-title{\n    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;\n    color:var(--brand);margin:32px 0 6px;\n  }\n  .section-subtitle{font-size:13px;color:var(--ink-soft);margin:0 0 14px;}\n\n  .alert-note{font-size:12px;font-weight:600;color:var(--alert-tx);background:var(--alert-bg);\n    display:inline-block;padding:4px 10px;border-radius:6px;margin-bottom:10px;}\n";
 var __styleEl = document.createElement("style");
 __styleEl.appendChild(document.createTextNode(__cssText));
 document.head.appendChild(__styleEl);
@@ -79,6 +79,29 @@ document.head.appendChild(__styleEl);
   </div>
   <div class="count-note" id="pending-count-note"></div>
 
+
+  <div class="section-title">Casos atrasados (SLA D+3)</div>
+  <p class="section-subtitle">Prazo = data de recebimento + 3 dias úteis (o dia do recebimento não conta, e fins de semana não contam como dia útil). Considera atrasado quem ainda não está Realizado, Realizado/ocupado ou com Entrega de chaves.</p>
+  <div id="sla-alert"></div>
+  <div class="table-card">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Contrato</th>
+            <th>Status</th>
+            <th>Data de recebimento</th>
+            <th>Prazo final</th>
+            <th>Dias em atraso</th>
+            <th>Endereço</th>
+          </tr>
+        </thead>
+        <tbody id="sla-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="count-note" id="sla-count-note"></div>
+
   <div class="footer-note">Dados vindos da planilha do escritório · atualização automática a cada 60 segundos</div>
 </div>
 
@@ -139,6 +162,7 @@ function extractRegion(address){
 }
 
 let allRows = [];
+let casosRows = [];
 let activeStatus = null;
 let activeRegion = null;
 let searchTerm = "";
@@ -319,15 +343,40 @@ function parseCasosCSV(csvText){
     }));
 }
 
-async function loadPendingJulho(){
-  try{
-    const res = await fetch(CASOS_CSV_URL + "&_=" + Date.now());
-    if(!res.ok) throw new Error("Falha ao buscar aba CASOS");
-    const text = await res.text();
-    const casosRows = parseCasosCSV(text);
+function addDays(date, days){
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
 
-    const now = new Date();
-    const cutoff = new Date(now.getFullYear(), 6, 1);
+function addBusinessDays(date, days){
+  const d = new Date(date);
+  let added = 0;
+  while(added < days){
+    d.setDate(d.getDate() + 1);
+    const dow = d.getDay();
+    if(dow !== 0 && dow !== 6) added++;
+  }
+  return d;
+}
+
+function startOfToday(){
+  const n = new Date();
+  return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+}
+
+async function loadCasosData(){
+  const res = await fetch(CASOS_CSV_URL + "&_=" + Date.now());
+  if(!res.ok) throw new Error("Falha ao buscar aba CASOS");
+  const text = await res.text();
+  casosRows = parseCasosCSV(text);
+}
+
+function renderPendingJulho(){
+  const tbody = document.getElementById("pending-table-body");
+  try{
+    const today = startOfToday();
+    const cutoff = new Date(today.getFullYear(), 6, 1);
     const julhoContratos = new Set(allRows.map(r => (r._contrato || "").toString().trim()));
 
     const pending = casosRows.filter(r =>
@@ -335,7 +384,6 @@ async function loadPendingJulho(){
       !julhoContratos.has((r._contrato || "").toString().trim())
     );
 
-    const tbody = document.getElementById("pending-table-body");
     tbody.innerHTML = "";
     if(pending.length === 0){
       tbody.innerHTML = `<tr class="empty-row"><td colspan="3">Nenhum caso pendente encontrado.</td></tr>`;
@@ -353,8 +401,70 @@ async function loadPendingJulho(){
     document.getElementById("pending-count-note").textContent =
       `${pending.length} caso(s) recebido(s) em julho ainda não lançados na aba JULHO`;
   }catch(err){
-    document.getElementById("pending-count-note").textContent =
-      "Não foi possível carregar a aba CASOS agora.";
+    document.getElementById("pending-count-note").textContent = "Não foi possível calcular essa lista agora.";
+    console.error(err);
+  }
+}
+
+const SLA_DONE_STATUSES = ["realizado","ocupado","entrega"];
+
+function renderSLA(){
+  const tbody = document.getElementById("sla-table-body");
+  const alertBox = document.getElementById("sla-alert");
+  try{
+    const today = startOfToday();
+    const recebimentoByContrato = {};
+    casosRows.forEach(r => {
+      const key = (r._contrato || "").toString().trim();
+      if(key && r._recebimentoDate) recebimentoByContrato[key] = r;
+    });
+
+    const late = [];
+    allRows.forEach(r => {
+      const key = (r._contrato || "").toString().trim();
+      const casoInfo = recebimentoByContrato[key];
+      if(!casoInfo || !casoInfo._recebimentoDate) return;
+      if(SLA_DONE_STATUSES.includes(r._status)) return;
+      const deadline = addBusinessDays(casoInfo._recebimentoDate, 3);
+      if(today > deadline){
+        const diasAtraso = Math.round((today - deadline) / 86400000);
+        late.push({
+          contrato: r._contrato,
+          status: r._status,
+          recebimento: casoInfo._recebimento,
+          deadline: deadline,
+          diasAtraso: diasAtraso,
+          endereco: r._endereco || casoInfo._endereco
+        });
+      }
+    });
+
+    late.sort((a,b) => b.diasAtraso - a.diasAtraso);
+
+    tbody.innerHTML = "";
+    if(late.length === 0){
+      tbody.innerHTML = `<tr class="empty-row"><td colspan="6">Nenhum caso atrasado no momento.</td></tr>`;
+      alertBox.innerHTML = "";
+    } else {
+      alertBox.innerHTML = `<span class="alert-note">${late.length} caso(s) fora do prazo de SLA</span>`;
+      late.forEach(r => {
+        const meta = STATUS_META[r.status];
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.contrato || "—"}</td>
+          <td><span class="badge" style="--b-bg:${meta.bg};--b-tx:${meta.tx}">${meta.label}</span></td>
+          <td>${r.recebimento || "—"}</td>
+          <td>${r.deadline.toLocaleDateString("pt-BR")}</td>
+          <td>${r.diasAtraso}</td>
+          <td>${r.endereco || "—"}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    document.getElementById("sla-count-note").textContent =
+      `${late.length} caso(s) fora do prazo de SLA`;
+  }catch(err){
+    document.getElementById("sla-count-note").textContent = "Não foi possível calcular o SLA agora.";
     console.error(err);
   }
 }
@@ -386,12 +496,15 @@ document.getElementById("clear-filter").addEventListener("click", () => {
   activeRegion = null;
   render();
 });
-document.getElementById("refresh-btn").addEventListener("click", () => loadData(true).then(loadPendingJulho));
+document.getElementById("refresh-btn").addEventListener("click", () => refreshAll());
 
 buildKpiGrid();
 buildRegionRow();
-loadData().then(loadPendingJulho);
-setInterval(() => { loadData().then(loadPendingJulho); }, REFRESH_MS);
+function refreshAll(){
+  return loadData().then(loadCasosData).then(() => { renderPendingJulho(); renderSLA(); });
+}
+refreshAll();
+setInterval(refreshAll, REFRESH_MS);
 </script>
 </body>
 </html>
