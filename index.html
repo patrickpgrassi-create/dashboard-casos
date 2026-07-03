@@ -48,6 +48,7 @@ document.head.appendChild(__styleEl);
           <tr>
             <th>Contrato</th>
             <th>Status</th>
+            <th>Data de recebimento</th>
             <th>Data da imissão</th>
             <th>Horário</th>
             <th>Endereço</th>
@@ -248,7 +249,7 @@ function render(){
   const tbody = document.getElementById("table-body");
   tbody.innerHTML = "";
   if(filtered.length === 0){
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="7">Nenhum caso encontrado com esse filtro.</td></tr>`;
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="8">Nenhum caso encontrado com esse filtro.</td></tr>`;
   } else {
     filtered.forEach(r => {
       const meta = STATUS_META[r._status];
@@ -256,6 +257,7 @@ function render(){
       tr.innerHTML = `
         <td>${r._contrato || "—"}</td>
         <td><span class="badge" style="--b-bg:${meta.bg};--b-tx:${meta.tx}">${meta.label}</span></td>
+        <td>${r._recebimento || "—"}</td>
         <td>${r._data || "—"}</td>
         <td>${r._horario || "—"}</td>
         <td>${r._endereco || "—"}</td>
@@ -444,6 +446,17 @@ function mergeMissingCasos(){
   const julhoContratos = new Set(allRows.map(r => (r._contrato || "").toString().trim()));
   const today = startOfToday();
   const cutoff = new Date(today.getFullYear(), 5, 10);
+
+  const recebimentoByContrato = {};
+  casosRows.forEach(r => {
+    const key = (r._contrato || "").toString().trim();
+    if(key && r._recebimento) recebimentoByContrato[key] = r._recebimento;
+  });
+  allRows.forEach(r => {
+    const key = (r._contrato || "").toString().trim();
+    r._recebimento = recebimentoByContrato[key] || "";
+  });
+
   casosRows.forEach(r => {
     const key = (r._contrato || "").toString().trim();
     if(!key || julhoContratos.has(key)) return;
@@ -457,7 +470,8 @@ function mergeMissingCasos(){
       _regiao: extractRegion(r._endereco || ""),
       _data: "",
       _diligencia: "",
-      _horario: ""
+      _horario: "",
+      _recebimento: r._recebimento || ""
     });
   });
 }
