@@ -417,16 +417,32 @@ function renderSLA(){
   }
 }
 
+function mergeMissingCasos(){
+  const julhoContratos = new Set(allRows.map(r => (r._contrato || "").toString().trim()));
+  const missing = casosRows.filter(r => {
+    const key = (r._contrato || "").toString().trim();
+    return key && !julhoContratos.has(key);
+  });
+  missing.forEach(r => {
+    allRows.push({
+      _contrato: r._contrato,
+      _status: "aberto",
+      _endereco: r._endereco || "",
+      _regiao: extractRegion(r._endereco || ""),
+      _data: "",
+      _diligencia: "",
+      _horario: ""
+    });
+  });
+}
+
 async function loadData(isManual){
   try{
     const res = await fetch(CSV_URL + "&_=" + Date.now());
     if(!res.ok) throw new Error("Falha ao buscar planilha");
     const text = await res.text();
     parseAndStore(text);
-    render();
     const now = new Date();
-    document.getElementById("subtitle").textContent =
-      `${allRows.length} casos carregados`;
     document.getElementById("live-text").textContent =
       "Ao vivo · atualizado às " + now.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
   }catch(err){
@@ -449,7 +465,12 @@ document.getElementById("refresh-btn").addEventListener("click", () => refreshAl
 buildKpiGrid();
 buildRegionRow();
 function refreshAll(){
-  return loadData().then(loadCasosData).then(() => { renderSLA(); });
+  return loadData().then(loadCasosData).then(() => {
+    mergeMissingCasos();
+    document.getElementById("subtitle").textContent = `${allRows.length} casos carregados`;
+    render();
+    renderSLA();
+  });
 }
 refreshAll();
 setInterval(refreshAll, REFRESH_MS);
